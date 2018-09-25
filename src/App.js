@@ -113,7 +113,7 @@ class App extends Component {
 
     e.preventDefault();
     let that = this;
-    const url = "http://localhost:4000"
+    const url = "https://knights-tour.herokuapp.com/"
     const request = new XMLHttpRequest();
     request.open('POST', url, false);
     request.withCredentials = true;
