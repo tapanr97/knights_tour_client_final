@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import HttpStatus from 'http-status-codes'
 
 class Square extends Component {
   constructor(props) {
@@ -27,14 +26,6 @@ class Square extends Component {
     else  
       this.state.color = 'white';
     return (
-      // <button
-      //   className="square" 
-      //   style = {{backgroundColor: this.state.color}}
-      //   onClick={this.handleChange}
-      //   id={this.props.value}
-      // >
-      //   {this.state.value}
-      // </button>
       <input 
       className="square" 
       style = {{backgroundColor: this.state.color}}
@@ -87,7 +78,7 @@ class Board extends Component {
 function changeStyle(prevInd, index, move_no) { 
   var urlString = 'url(' + require('./Capture.PNG') + ')';
   document.getElementById(index).style.background = urlString;   
-  document.getElementById(index).style.backgroundSize = "30px 30px";   
+  document.getElementById(index).style.backgroundSize = "40px 40px";   
   if(prevInd != -1) {
     document.getElementById(prevInd).value = move_no - 1; 
     document.getElementById(prevInd).style.background = '#fff968'; 
@@ -103,7 +94,8 @@ class App extends Component {
       dimensions: 6,
       x: 0,
       y: 0,
-      id: 0
+      id: 0,
+      interval: 500
     }
     this.handleStart = this.handleStart.bind(this);    
     this.handleClear = this.handleClear.bind(this);    
@@ -113,7 +105,8 @@ class App extends Component {
 
     e.preventDefault();
     let that = this;
-    const url = "https://knights-tour.herokuapp.com/"
+    const url="http://localhost:3001/"
+    //const url = "https://knights-tour.herokuapp.com/"
     const request = new XMLHttpRequest();
     request.open('POST', url, false);
     request.withCredentials = true;
@@ -123,27 +116,20 @@ class App extends Component {
         that.state.arr = JSON.parse(request.response);
       }
     }
-
     request.send(JSON.stringify(this.state));
-    console.log(this.state.arr.ans);
-    
-
     let tmp = 0;
     let prevInd = -1;
     let arr = this.state.arr.ans;
     let size = arr.length - 1;
-    console.log(size);
     let myid = setInterval(function run(){
-
       let splt = arr[tmp].split(" ");
       let ind = parseInt(splt[1]) * parseInt(that.state.dimensions) + parseInt(splt[2]); 
-      console.log(ind);
       changeStyle(prevInd, ind, splt[0]);
       prevInd = ind;
       tmp = tmp + 1;
       if(tmp === size)
         clearInterval(myid);
-    }, 500);
+    }, this.state.interval);
     this.state.id = myid;
   }
 
@@ -170,25 +156,35 @@ class App extends Component {
     }
     document.getElementById("in1").value = '';
     document.getElementById("in2").value = '';
-    document.getElementById("in3").value = '';        
+    document.getElementById("in3").value = '';     
+    document.getElementById("in4").value = '';        
   }
 
   render() {
     return (
       <div className="dash">
+          <div style={{width: "50%"}}>
+            <h1 style={{color:"yellow", fontSize:"50px"}}> Knight's Tour </h1>
+            <h2 style={{color:"yellow", fontSize:"30px"}}> IT486 – Logic of Inference </h2>
+          </div>
         <div className="game">
           <div className="game-board">
             <Board dimensions = {this.state.dimensions}/>
           </div>
+
         </div>
         <div>
-            <label>Enter the dimensions: </label>
+            <label style={{color:"white", fontWeight:"bold"}}>Enter the dimensions: </label>
             <input type='text' id = "in1" placeholder="Enter The dimensions" name = "dimensions" onChange = {this.handleInput}></input>
         </div>
         <div>
-          <label>Enter the Starting Point: </label>
+          <label style={{color:"white", fontWeight:"bold"}}>Enter the Starting Point: </label>
           <input type='text' id = "in2" placeholder="Enter X-coordinate" name = "x" onChange = {this.handleInput}></input>
           <input type='text' id = "in3" placeholder="Enter Y-coordinate" name = "y" onChange = {this.handleInput}></input>
+        </div>
+        <div>
+            <label style={{color:"white", fontWeight:"bold"}}>Enter the time interval (in ms): </label>
+            <input type='text' id = "in4" placeholder="Enter the time interval" name = "interval" onChange = {this.handleInput}></input>
         </div>
         <div>
             <button onClick={this.handleStart}>
@@ -197,6 +193,11 @@ class App extends Component {
             <button onClick={this.handleClear}>
               Clear
             </button>
+        </div>
+        <div>
+          <h2 style={{color:"yellow"}}> Team Members: </h2>    
+          <text style={{fontWeight:"bold", color:"white"}}>1) Tapan Modi (201501199)</text>  <br/>
+          <text style={{fontWeight:"bold", color:"white"}}>1) Pratik Kayastha (201501248)</text>      
         </div>
       </div>
     );

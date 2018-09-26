@@ -1,11 +1,13 @@
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+  background-image: url(w2.jpg);
 }
 
 ol, ul {
   padding-left: 30px;
 }
+
 
 .board-row:after {
   clear: both;
@@ -24,12 +26,12 @@ ol, ul {
   font-size: 13px;
   font-weight: bold;
   line-height: 34px;
-  height: 30px;
+  height: 40px;
   margin-right: -5px;
   margin-top: -5px;
   padding: 0;
   text-align: center;
-  width: 30px;
+  width: 40px;
 }
 
 .square:focus {
