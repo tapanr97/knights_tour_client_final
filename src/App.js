@@ -48,10 +48,14 @@ class App extends Component {
       }
     }
     request.send(JSON.stringify(this.state));
+   
+   
     let tmp = 0;
     let prevInd = -1;
     let arr = this.state.arr.ans;
     let size = arr.length - 1;
+    
+    
     let myid = setInterval(function run(){
       let splt = arr[tmp].split(" ");
       let ind = parseInt(splt[1]) * parseInt(that.state.dimensions) + parseInt(splt[2]); 
@@ -104,10 +108,11 @@ class App extends Component {
 
   render() {
     return (
+      
       <div className="dash">
           <div style={{width: "50%"}}>
             <h1 style={{color:"yellow", fontSize:"50px"}}> Knight's Tour </h1>
-            <h2 style={{color:"yellow", fontSize:"30px"}}> IT486 – Logic of Inference </h2>
+            <h2 style={{color:"yellow", fontSize:"30px"}}> IT485 – Logic of Inference </h2>
           </div>
         <div className="game">
           <div className="game-board">
