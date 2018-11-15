@@ -6,19 +6,20 @@ class Board extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        dimensions : 6
+        n : 6,
+        m: 6
       }
     }
   
     renderSquare(i, j) {
-      return <Square value={this.state.dimensions * i + j} x = {i} y = {j}/>;
+      return <Square value={this.state.m * i + j} x = {i} y = {j}/>;
     }
   
     createTable = () => {
       let rows = [];
-      for(let i = 0; i < this.state.dimensions; i++) {
+      for(let i = 0; i < this.state.n; i++) {
         let cols = [];
-        for(let j = 0; j < this.state.dimensions; j++) {
+        for(let j = 0; j < this.state.m; j++) {
           cols.push(this.renderSquare(i, j));
         }
         rows.push(<div className='board-row'>{cols}</div>);
@@ -27,8 +28,11 @@ class Board extends Component {
     }
   
     render() {
-      if(this.props.dimensions > 6) this.state.dimensions = this.props.dimensions;
-      else this.state.dimensions = 6;
+      if(this.props.n > 6 || this.props.m > 6) {
+        this.state.n = this.props.n;
+        this.state.m = this.props.m;
+      }
+      else this.state.n = this.state.m = 6;
       return (
         <div className="board">
           <div>
